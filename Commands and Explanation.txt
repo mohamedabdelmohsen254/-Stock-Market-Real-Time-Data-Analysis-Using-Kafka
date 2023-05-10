@@ -1,0 +1,43 @@
+**After connecting to the EC2 instance where you choosed ubuntu as the operating system you will need to download kafka:**
+
+wget https://downloads.apache.org/kafka/3.4.0/kafka_2.12-3.4.0.tgz
+tar -xvf kafka_2.12-3.4.0.tgz
+
+**Then you need to install java:**
+
+sudo apt-get update
+sudo apt-get install openjdk-11-jdk
+java -version //print the version to check that is installed successfully
+cd kafka_2.12-3.4.0 // go to the kafka folder to start working
+
+**Run in a public Ip:**
+use this command:
+ sudo nano config/server.properties
+and then change ADVERTISED_LISTENERS to public ip of the EC2 instance
+
+**Start Zoo-keeper:**
+first duplicate the session size using this command:
+ export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"
+then start the server:
+ bin/zookeeper-server-start.sh config/zookeeper.properties
+
+**Start kafka server:**
+open a new terminal then connect to EC2 instance and go to kafka folder and then write this command:
+ bin/kafka-server-start.sh config/server.properties
+
+**Create the topic:**
+open a new terminal then connect to EC2 instance and go to kafka folder and then write this command:
+ bin/kafka-topics.sh --create --topic demo_testing2 --bootstrap-server {Put the Public IP of your EC2 Instance:9092} --replication-factor 1 --partitions 1
+
+**Start Producer:**
+open a new terminal then connect to EC2 instance and go to kafka folder and then write this command:
+ bin/kafka-console-producer.sh --topic demo_testing2 --bootstrap-server {Put the Public IP of your EC2 Instance:9092} 
+
+**Start Consumer
+open a new terminal then connect to EC2 instance and go to kafka folder and then write this command:
+ bin/kafka-console-consumer.sh --topic demo_testing2 --bootstrap-server {Put the Public IP of your EC2 Instance:9092}
+ 
+
+
+
+
